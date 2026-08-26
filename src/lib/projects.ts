@@ -42,7 +42,7 @@ export type Project = {
   tags: string[];
 };
 
-export const projects: Project[] = [
+export const seedProjects: Project[] = [
   {
     slug: "graphic-novel",
     title: "Graphic Novel",
@@ -259,6 +259,3 @@ export const categories: ("All" | Category)[] = [
   "Experimental",
 ];
 
-export function getProject(slug: string) {
-  return projects.find((p) => p.slug === slug);
-}

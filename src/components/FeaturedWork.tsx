@@ -1,11 +1,13 @@
-import { projects } from "@/lib/projects";
+import { Project } from "@/lib/projects";
 import ProjectCard from "./ProjectCard";
 import Reveal from "./Reveal";
 import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
 
-export default function FeaturedWork() {
+export default function FeaturedWork({ projects }: { projects: Project[] }) {
   const featured = projects.filter((p) => p.featured);
+
+  if (featured.length === 0) return null;
 
   return (
     <section className="px-6 py-24 md:px-10 md:py-32">

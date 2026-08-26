@@ -1,4 +1,4 @@
-import { getProject, projects } from "@/lib/projects";
+import { getProject, getProjects } from "@/lib/store";
 import { notFound } from "next/navigation";
 import Plate from "@/components/Plate";
 import Reveal from "@/components/Reveal";
@@ -6,9 +6,7 @@ import Link from "next/link";
 import { ArrowLeft, ArrowUpRight } from "lucide-react";
 import ProjectCard from "@/components/ProjectCard";
 
-export function generateStaticParams() {
-  return projects.map((p) => ({ slug: p.slug }));
-}
+export const dynamic = "force-dynamic";
 
 function Section({
   eyebrow,
@@ -36,10 +34,10 @@ function Section({
 
 export default async function ProjectPage({ params }: PageProps<"/works/[slug]">) {
   const { slug } = await params;
-  const project = getProject(slug);
+  const project = await getProject(slug);
   if (!project) return notFound();
 
-  const others = projects.filter((p) => p.slug !== project.slug).slice(0, 3);
+  const others = (await getProjects()).filter((p) => p.slug !== project.slug).slice(0, 3);
 
   return (
     <div>
@@ -83,7 +81,7 @@ export default async function ProjectPage({ params }: PageProps<"/works/[slug]">
 
       <Reveal>
         <div className="mx-auto max-w-6xl px-6 md:px-10">
-          <Plate seed={project.slug} label={project.coverAlt} ratio="aspect-[16/9]" className="rounded-2xl" />
+          <Plate seed={project.slug} src={project.cover} label={project.coverAlt} ratio="aspect-[16/9]" className="rounded-2xl" />
         </div>
       </Reveal>
 
@@ -117,7 +115,7 @@ export default async function ProjectPage({ params }: PageProps<"/works/[slug]">
         <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {project.research.map((r, i) => (
             <div key={i}>
-              <Plate seed={`${project.slug}-research-${i}`} ratio="aspect-[4/5]" className="rounded-xl" />
+              <Plate seed={`${project.slug}-research-${i}`} src={r.image} ratio="aspect-[4/5]" className="rounded-xl" />
               <p className="mt-3 text-sm text-ink-soft">{r.caption}</p>
             </div>
           ))}
@@ -131,6 +129,7 @@ export default async function ProjectPage({ params }: PageProps<"/works/[slug]">
             <div key={i} className={i === 0 ? "sm:col-span-2 lg:col-span-2" : ""}>
               <Plate
                 seed={`${project.slug}-explore-${i}`}
+                src={r.image}
                 ratio={i === 0 ? "aspect-[16/9]" : "aspect-square"}
                 className="rounded-xl"
               />
@@ -145,7 +144,7 @@ export default async function ProjectPage({ params }: PageProps<"/works/[slug]">
         <div className="space-y-6">
           {project.process.map((r, i) => (
             <div key={i} className="grid items-center gap-6 md:grid-cols-[1fr_1.2fr]">
-              <Plate seed={`${project.slug}-process-${i}`} ratio="aspect-[4/3]" className="rounded-xl" />
+              <Plate seed={`${project.slug}-process-${i}`} src={r.image} ratio="aspect-[4/3]" className="rounded-xl" />
               <p className="text-ink-soft leading-relaxed">{r.caption}</p>
             </div>
           ))}
@@ -153,10 +152,10 @@ export default async function ProjectPage({ params }: PageProps<"/works/[slug]">
       </Section>
 
       {/* Materials */}
-      {project.materials && (
+      {project.materials && project.materials.length > 0 && (
         <Section eyebrow="05 — Materials & Making" title="Material study">
           <div className="relative">
-            <Plate seed={`${project.slug}-materials`} ratio="aspect-[16/9]" className="rounded-2xl" />
+            <Plate seed={`${project.slug}-materials`} src={project.materialsImage} ratio="aspect-[16/9]" className="rounded-2xl" />
             {project.materials.map((m, i) => (
               <div
                 key={i}
@@ -181,6 +180,7 @@ export default async function ProjectPage({ params }: PageProps<"/works/[slug]">
             <div key={i}>
               <Plate
                 seed={`${project.slug}-final-${i}`}
+                src={r.image}
                 ratio={i === 0 ? "aspect-[16/9]" : "aspect-[16/10]"}
                 className="rounded-2xl"
               />

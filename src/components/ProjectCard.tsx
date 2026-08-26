@@ -31,7 +31,7 @@ export default function ProjectCard({
     >
       <div className="relative overflow-hidden rounded-2xl">
         <div className="transition-transform duration-700 ease-out group-hover:scale-[1.045]">
-          <Plate seed={project.slug} ratio={ratio} />
+          <Plate seed={project.slug} src={project.cover} ratio={ratio} />
         </div>
         <span
           className={`absolute left-4 top-4 rounded-full px-3 py-1 text-[11px] uppercase tracking-[0.12em] text-ink ${catColor[project.category]}`}

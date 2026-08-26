@@ -5,13 +5,18 @@ import Reveal from "@/components/Reveal";
 import Plate from "@/components/Plate";
 import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
+import { getProjects } from "@/lib/store";
 
-export default function Home() {
+export const dynamic = "force-dynamic";
+
+export default async function Home() {
+  const projects = await getProjects();
+
   return (
     <>
       <Hero />
       <IntroWords />
-      <FeaturedWork />
+      <FeaturedWork projects={projects} />
 
       <section className="bg-aqua/40 px-6 py-24 md:px-10 md:py-28">
         <div className="mx-auto grid max-w-7xl items-center gap-12 lg:grid-cols-2">

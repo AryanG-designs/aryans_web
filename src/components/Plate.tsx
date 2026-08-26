@@ -1,9 +1,9 @@
 "use client";
 
-// A stand-in "plate" for a photograph / sketch / material shot.
-// Renders a warm, textured gradient so the site reads as a finished
-// exhibition even before real project photography is dropped in —
-// replace with <img src={project image} /> once assets exist.
+// A stand-in "plate" for a photograph / sketch / material shot, used until
+// real project photography is uploaded via /admin. Once a project has a
+// real uploaded `src` (an https URL from Blob storage), that image renders
+// instead of the placeholder gradient.
 
 const PALETTES: Record<string, [string, string]> = {
   cream: ["#ffedd1", "#f6d9ad"],
@@ -21,15 +21,33 @@ function paletteFor(seed: string) {
 
 export default function Plate({
   seed,
+  src,
   label,
   className = "",
   ratio = "aspect-[4/5]",
 }: {
   seed: string;
+  src?: string;
   label?: string;
   className?: string;
   ratio?: string;
 }) {
+  const hasRealImage = !!src && src.startsWith("http");
+
+  if (hasRealImage) {
+    return (
+      <div className={`relative overflow-hidden ${ratio} ${className}`}>
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img src={src} alt={label ?? ""} className="h-full w-full object-cover" />
+        {label && (
+          <span className="absolute bottom-3 left-3 rounded-full bg-ink/80 px-3 py-1 text-[10px] uppercase tracking-[0.14em] text-cream backdrop-blur-sm">
+            {label}
+          </span>
+        )}
+      </div>
+    );
+  }
+
   const [a, b] = paletteFor(seed);
   return (
     <div
