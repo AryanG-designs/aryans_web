@@ -81,79 +81,13 @@ export default async function ProjectPage({ params }: PageProps<"/works/[slug]">
 
       <Reveal>
         <div className="mx-auto max-w-6xl px-6 md:px-10">
-          <Plate seed={project.slug} src={project.cover} label={project.coverAlt} ratio="aspect-[16/9]" className="rounded-2xl" />
+          <Plate seed={project.slug} src={project.cover} label={project.coverAlt} fit="contain" className="rounded-2xl" />
         </div>
       </Reveal>
 
-      {/* Brief */}
-      <Section eyebrow="01 — The Brief" title="Problem & objectives">
-        <div className="grid gap-10 md:grid-cols-2">
-          <div>
-            <p className="text-ink-soft leading-relaxed">{project.brief.problem}</p>
-            <div className="mt-6">
-              <p className="text-xs uppercase tracking-[0.14em] text-ink-soft">Audience</p>
-              <p className="mt-1">{project.brief.audience}</p>
-            </div>
-            <div className="mt-4">
-              <p className="text-xs uppercase tracking-[0.14em] text-ink-soft">Constraints</p>
-              <p className="mt-1">{project.brief.constraints}</p>
-            </div>
-          </div>
-          <ul className="space-y-3">
-            {project.brief.objectives.map((o, i) => (
-              <li key={i} className="flex gap-3 rounded-xl bg-cream-deep/60 p-4">
-                <span className="font-display text-coral-deep">{String(i + 1).padStart(2, "0")}</span>
-                <span>{o}</span>
-              </li>
-            ))}
-          </ul>
-        </div>
-      </Section>
-
-      {/* Research */}
-      <Section eyebrow="02 — Research" title="Research & references" bg="bg-aqua/30">
-        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {project.research.map((r, i) => (
-            <div key={i}>
-              <Plate seed={`${project.slug}-research-${i}`} src={r.image} ratio="aspect-[4/5]" className="rounded-xl" />
-              <p className="mt-3 text-sm text-ink-soft">{r.caption}</p>
-            </div>
-          ))}
-        </div>
-      </Section>
-
-      {/* Exploration */}
-      <Section eyebrow="03 — Exploration" title="Ideation & sketching">
-        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {project.exploration.map((r, i) => (
-            <div key={i} className={i === 0 ? "sm:col-span-2 lg:col-span-2" : ""}>
-              <Plate
-                seed={`${project.slug}-explore-${i}`}
-                src={r.image}
-                ratio={i === 0 ? "aspect-[16/9]" : "aspect-square"}
-                className="rounded-xl"
-              />
-              <p className="mt-3 text-sm text-ink-soft">{r.caption}</p>
-            </div>
-          ))}
-        </div>
-      </Section>
-
-      {/* Process */}
-      <Section eyebrow="04 — Process" title="Development & iteration" bg="bg-coral/20">
-        <div className="space-y-6">
-          {project.process.map((r, i) => (
-            <div key={i} className="grid items-center gap-6 md:grid-cols-[1fr_1.2fr]">
-              <Plate seed={`${project.slug}-process-${i}`} src={r.image} ratio="aspect-[4/3]" className="rounded-xl" />
-              <p className="text-ink-soft leading-relaxed">{r.caption}</p>
-            </div>
-          ))}
-        </div>
-      </Section>
-
       {/* Materials */}
       {project.materials && project.materials.length > 0 && (
-        <Section eyebrow="05 — Materials & Making" title="Material study">
+        <Section eyebrow="01 — Materials & Making" title="Material study">
           <div className="relative">
             <Plate seed={`${project.slug}-materials`} src={project.materialsImage} ratio="aspect-[16/9]" className="rounded-2xl" />
             {project.materials.map((m, i) => (
@@ -173,29 +107,14 @@ export default async function ProjectPage({ params }: PageProps<"/works/[slug]">
         </Section>
       )}
 
-      {/* Outcome */}
-      <Section eyebrow="06 — Final Outcome" title="The result" bg="bg-cream-deep/60">
-        <div className="space-y-8">
-          {project.outcome.map((r, i) => (
-            <div key={i}>
-              <Plate
-                seed={`${project.slug}-final-${i}`}
-                src={r.image}
-                ratio={i === 0 ? "aspect-[16/9]" : "aspect-[16/10]"}
-                className="rounded-2xl"
-              />
-              <p className="mt-3 text-sm text-ink-soft">{r.caption}</p>
-            </div>
-          ))}
-        </div>
-      </Section>
-
       {/* Reflection */}
-      <Section eyebrow="07 — Reflection" title="What I learned">
-        <blockquote className="font-display text-2xl leading-snug md:text-3xl">
-          "{project.reflection}"
-        </blockquote>
-      </Section>
+      {project.reflection && (
+        <Section eyebrow="02 — Reflection" title="What I learned">
+          <blockquote className="font-display text-2xl leading-snug md:text-3xl">
+            "{project.reflection}"
+          </blockquote>
+        </Section>
+      )}
 
       {/* Next projects */}
       <section className="border-t border-ink/10 px-6 py-20 md:px-10 md:py-24">

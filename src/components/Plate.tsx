@@ -25,14 +25,31 @@ export default function Plate({
   label,
   className = "",
   ratio = "aspect-[4/5]",
+  fit = "cover",
 }: {
   seed: string;
   src?: string;
   label?: string;
   className?: string;
   ratio?: string;
+  /** "cover" crops to fill a fixed box (grid cards); "contain" shows the full image at its natural aspect ratio. */
+  fit?: "cover" | "contain";
 }) {
   const hasRealImage = !!src && src.startsWith("http");
+
+  if (hasRealImage && fit === "contain") {
+    return (
+      <div className={`relative overflow-hidden ${className}`}>
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img src={src} alt={label ?? ""} className="block h-auto w-full" />
+        {label && (
+          <span className="absolute bottom-3 left-3 rounded-full bg-ink/80 px-3 py-1 text-[10px] uppercase tracking-[0.14em] text-cream backdrop-blur-sm">
+            {label}
+          </span>
+        )}
+      </div>
+    );
+  }
 
   if (hasRealImage) {
     return (
