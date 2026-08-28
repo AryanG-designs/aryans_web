@@ -31,7 +31,7 @@ export default function FlipSlideshow({ items }: { items: SlideItem[] }) {
           <ChevronLeft size={20} />
         </button>
 
-        <div className="grid flex-1 place-items-center overflow-hidden bg-cream-deep/40">
+        <div className="grid h-[60vh] flex-1 place-items-center overflow-hidden bg-cream-deep/40">
           <AnimatePresence mode="popLayout" custom={direction}>
             <motion.div
               key={index}
@@ -47,7 +47,7 @@ export default function FlipSlideshow({ items }: { items: SlideItem[] }) {
               <img
                 src={current.image}
                 alt={current.caption ?? `Slide ${index + 1}`}
-                className="max-h-[65vh] w-auto max-w-full object-contain"
+                className="max-h-full w-auto max-w-full object-contain"
               />
             </motion.div>
           </AnimatePresence>
