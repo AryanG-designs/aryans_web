@@ -85,9 +85,23 @@ export default async function ProjectPage({ params }: PageProps<"/works/[slug]">
         </div>
       </Reveal>
 
+      {/* Final Outcome */}
+      {project.outcome && project.outcome.length > 0 && (
+        <Section eyebrow="01 — Final Outcome" title="The result" bg="bg-cream-deep/60">
+          <div className="space-y-8">
+            {project.outcome.map((r, i) => (
+              <div key={i}>
+                <Plate seed={`${project.slug}-final-${i}`} src={r.image} fit="contain" className="rounded-2xl" />
+                {r.caption && <p className="mt-3 text-sm text-ink-soft">{r.caption}</p>}
+              </div>
+            ))}
+          </div>
+        </Section>
+      )}
+
       {/* Materials */}
       {project.materials && project.materials.length > 0 && (
-        <Section eyebrow="01 — Materials & Making" title="Material study">
+        <Section eyebrow="02 — Materials & Making" title="Material study">
           <div className="relative">
             <Plate seed={`${project.slug}-materials`} src={project.materialsImage} ratio="aspect-[16/9]" className="rounded-2xl" />
             {project.materials.map((m, i) => (
@@ -109,7 +123,7 @@ export default async function ProjectPage({ params }: PageProps<"/works/[slug]">
 
       {/* Reflection */}
       {project.reflection && (
-        <Section eyebrow="02 — Reflection" title="What I learned">
+        <Section eyebrow="03 — Reflection" title="What I learned">
           <blockquote className="font-display text-2xl leading-snug md:text-3xl">
             "{project.reflection}"
           </blockquote>
