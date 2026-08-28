@@ -9,12 +9,15 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: "No file provided." }, { status: 400 });
   }
 
-  if (!file.type.startsWith("image/")) {
+  const imageExtensions = /\.(jpe?g|png|gif|webp|svg|bmp|tiff?|heic|heif|avif)$/i;
+  const looksLikeImage = file.type.startsWith("image/") || imageExtensions.test(file.name);
+
+  if (!looksLikeImage) {
     return NextResponse.json({ error: "Only image files are allowed." }, { status: 400 });
   }
 
-  if (file.size > 15 * 1024 * 1024) {
-    return NextResponse.json({ error: "Image must be under 15MB." }, { status: 400 });
+  if (file.size > 25 * 1024 * 1024) {
+    return NextResponse.json({ error: "Image must be under 25MB." }, { status: 400 });
   }
 
   const safeName = file.name.replace(/[^a-zA-Z0-9.\-_]/g, "-");
