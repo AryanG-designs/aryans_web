@@ -5,7 +5,7 @@ import Reveal from "@/components/Reveal";
 import Link from "next/link";
 import { ArrowLeft, ArrowUpRight } from "lucide-react";
 import ProjectCard from "@/components/ProjectCard";
-import DeliverablesSlideshow from "@/components/DeliverablesSlideshow";
+import FlipSlideshow from "@/components/FlipSlideshow";
 
 export const dynamic = "force-dynamic";
 
@@ -40,12 +40,7 @@ export default async function ProjectPage({ params }: PageProps<"/works/[slug]">
 
   const others = (await getProjects()).filter((p) => p.slug !== project.slug).slice(0, 3);
 
-  const deliverableImages =
-    project.deliverables && project.deliverables.length > 0
-      ? project.deliverables
-      : project.materialsImage
-        ? [project.materialsImage]
-        : [];
+  const outcomeSlides = (project.outcome ?? []).map((r) => ({ image: r.image, caption: r.caption }));
 
   return (
     <div>
@@ -94,23 +89,16 @@ export default async function ProjectPage({ params }: PageProps<"/works/[slug]">
       </Reveal>
 
       {/* Final Outcome */}
-      {project.outcome && project.outcome.length > 0 && (
+      {outcomeSlides.length > 0 && (
         <Section eyebrow="01 — Final Outcome" title="The result" bg="bg-cream-deep/60">
-          <div className="space-y-8">
-            {project.outcome.map((r, i) => (
-              <div key={i}>
-                <Plate seed={`${project.slug}-final-${i}`} src={r.image} fit="contain" />
-                {r.caption && <p className="mt-3 text-sm text-ink-soft">{r.caption}</p>}
-              </div>
-            ))}
-          </div>
+          <FlipSlideshow items={outcomeSlides} />
         </Section>
       )}
 
       {/* Deliverables */}
-      {deliverableImages.length > 0 && (
+      {project.materialsImage && (
         <Section eyebrow="02 — Deliverables" title="Deliverables">
-          <DeliverablesSlideshow images={deliverableImages} />
+          <Plate seed={`${project.slug}-materials`} src={project.materialsImage} fit="contain" />
         </Section>
       )}
 

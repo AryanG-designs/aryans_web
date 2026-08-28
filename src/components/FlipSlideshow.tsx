@@ -4,16 +4,20 @@ import { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
-export default function DeliverablesSlideshow({ images }: { images: string[] }) {
+export type SlideItem = { image: string; caption?: string };
+
+export default function FlipSlideshow({ items }: { items: SlideItem[] }) {
   const [index, setIndex] = useState(0);
   const [direction, setDirection] = useState(1);
 
-  if (images.length === 0) return null;
+  if (items.length === 0) return null;
 
   function go(next: number) {
     setDirection(next > index ? 1 : -1);
-    setIndex((next + images.length) % images.length);
+    setIndex((next + items.length) % items.length);
   }
+
+  const current = items[index];
 
   return (
     <div>
@@ -32,11 +36,11 @@ export default function DeliverablesSlideshow({ images }: { images: string[] }) 
             style={{ transformStyle: "preserve-3d", backfaceVisibility: "hidden" }}
           >
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src={images[index]} alt={`Deliverable ${index + 1}`} className="block h-auto w-full" />
+            <img src={current.image} alt={current.caption ?? `Slide ${index + 1}`} className="block h-auto w-full" />
           </motion.div>
         </AnimatePresence>
 
-        {images.length > 1 && (
+        {items.length > 1 && (
           <>
             <button
               onClick={() => go(index - 1)}
@@ -56,9 +60,11 @@ export default function DeliverablesSlideshow({ images }: { images: string[] }) 
         )}
       </div>
 
-      {images.length > 1 && (
+      {current.caption && <p className="mt-3 text-sm text-ink-soft">{current.caption}</p>}
+
+      {items.length > 1 && (
         <div className="mt-4 flex justify-center gap-2">
-          {images.map((_, i) => (
+          {items.map((_, i) => (
             <button
               key={i}
               onClick={() => go(i)}
