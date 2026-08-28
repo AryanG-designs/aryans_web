@@ -1,6 +1,7 @@
 "use client";
 
 import { useRef, useState } from "react";
+import { upload } from "@vercel/blob/client";
 import { Upload, Loader2, ImageOff } from "lucide-react";
 
 export default function ImageSlot({
@@ -22,13 +23,11 @@ export default function ImageSlot({
     setUploading(true);
     setError(null);
     try {
-      const form = new FormData();
-      form.append("file", file);
-      const res = await fetch("/api/admin/upload", { method: "POST", body: form });
-      const text = await res.text();
-      const data = text ? JSON.parse(text) : {};
-      if (!res.ok) throw new Error(data.error || `Upload failed (${res.status})`);
-      onChange(data.url);
+      const blob = await upload(file.name, file, {
+        access: "public",
+        handleUploadUrl: "/api/admin/upload",
+      });
+      onChange(blob.url);
     } catch (e) {
       setError(e instanceof Error ? e.message : "Upload failed");
     } finally {
