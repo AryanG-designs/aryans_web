@@ -3,6 +3,8 @@ import Plate from "@/components/Plate";
 import Link from "next/link";
 import { Download } from "lucide-react";
 
+export const dynamic = "force-dynamic";
+
 const skillGroups = [
   {
     title: "Design",
