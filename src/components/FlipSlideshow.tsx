@@ -31,19 +31,16 @@ export default function FlipSlideshow({ items }: { items: SlideItem[] }) {
           <ChevronLeft size={20} />
         </button>
 
-        <div
-          className="relative flex-1 overflow-hidden bg-cream-deep/40"
-          style={{ perspective: 1600 }}
-        >
-          <AnimatePresence mode="wait" custom={direction}>
+        <div className="grid flex-1 place-items-center overflow-hidden bg-cream-deep/40">
+          <AnimatePresence mode="popLayout" custom={direction}>
             <motion.div
               key={index}
               custom={direction}
-              initial={{ rotateY: direction > 0 ? 90 : -90, opacity: 0 }}
-              animate={{ rotateY: 0, opacity: 1 }}
-              exit={{ rotateY: direction > 0 ? -90 : 90, opacity: 0 }}
-              transition={{ duration: 0.5, ease: [0.65, 0, 0.35, 1] }}
-              style={{ transformStyle: "preserve-3d", backfaceVisibility: "hidden" }}
+              initial={{ scaleX: 0, opacity: 0 }}
+              animate={{ scaleX: 1, opacity: 1 }}
+              exit={{ scaleX: 0, opacity: 0 }}
+              transition={{ duration: 0.4, ease: [0.65, 0, 0.35, 1] }}
+              style={{ gridArea: "1 / 1" }}
               className="flex items-center justify-center"
             >
               {/* eslint-disable-next-line @next/next/no-img-element */}
