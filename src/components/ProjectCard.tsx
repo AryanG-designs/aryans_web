@@ -29,7 +29,7 @@ export default function ProjectCard({
       data-cursor="Explore"
       className="group block"
     >
-      <div className="relative overflow-hidden rounded-2xl">
+      <div className="relative overflow-hidden">
         <div className="transition-transform duration-700 ease-out group-hover:scale-[1.045]">
           <Plate seed={project.slug} src={project.cover} ratio={ratio} />
         </div>

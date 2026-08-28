@@ -41,10 +41,10 @@ export default async function Home() {
           </Reveal>
 
           <Reveal delay={0.1} className="grid grid-cols-2 gap-4">
-            <Plate seed="teaser-1" label="Sketch" className="rounded-xl translate-y-6" />
-            <Plate seed="teaser-2" label="Material test" className="rounded-xl" />
-            <Plate seed="teaser-3" label="Prototype v2" className="rounded-xl" />
-            <Plate seed="teaser-4" label="Final" className="rounded-xl translate-y-6" />
+            <Plate seed="teaser-1" label="Sketch" className="translate-y-6" />
+            <Plate seed="teaser-2" label="Material test" />
+            <Plate seed="teaser-3" label="Prototype v2" />
+            <Plate seed="teaser-4" label="Final" className="translate-y-6" />
           </Reveal>
         </div>
       </section>

@@ -90,10 +90,10 @@ export default function Hero() {
 
         <div className="relative h-[420px] md:h-[480px]">
           <motion.div style={{ x: t1x, y: t1y }} className="absolute right-4 top-0 w-[58%] shadow-xl">
-            <Plate seed="hero-1" label="Graphic Novel, 2025" ratio="aspect-[3/4]" className="rounded-2xl" />
+            <Plate seed="hero-1" label="Graphic Novel, 2025" ratio="aspect-[3/4]" />
           </motion.div>
           <motion.div style={{ x: t2x, y: t2y }} className="absolute left-0 bottom-6 w-[46%] shadow-xl">
-            <Plate seed="hero-2" label="Sketchbook" ratio="aspect-square" className="rounded-2xl" />
+            <Plate seed="hero-2" label="Sketchbook" ratio="aspect-square" />
           </motion.div>
           <motion.div
             style={{ x: t3x, y: t3y }}

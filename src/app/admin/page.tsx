@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { Project, Category, MaterialNote, categories } from "@/lib/projects";
+import { Project, Category, categories } from "@/lib/projects";
 import { slugify } from "@/lib/store";
 import ImageSlot from "@/components/admin/ImageSlot";
 import { Plus, Trash2, LogOut, Save, Check, Loader2 } from "lucide-react";
@@ -109,88 +109,6 @@ function GalleryEditor({
           </div>
         ))}
         {items.length === 0 && <p className="text-xs text-ink-soft">No images yet.</p>}
-      </div>
-    </div>
-  );
-}
-
-function MaterialsEditor({
-  notes,
-  onChange,
-}: {
-  notes: MaterialNote[];
-  onChange: (notes: MaterialNote[]) => void;
-}) {
-  return (
-    <div>
-      <div className="mb-2 flex items-center justify-between">
-        <p className="text-sm font-semibold">Material labels</p>
-        <button
-          type="button"
-          onClick={() => onChange([...notes, { label: "", detail: "", x: 50, y: 50 }])}
-          className="inline-flex items-center gap-1 rounded-full border border-ink/20 px-2.5 py-1 text-xs uppercase tracking-[0.08em] hover:bg-ink hover:text-cream"
-        >
-          <Plus size={12} /> Add
-        </button>
-      </div>
-      <div className="space-y-3">
-        {notes.map((note, i) => (
-          <div key={i} className="grid grid-cols-2 gap-2 rounded-xl bg-cream-deep/40 p-3 sm:grid-cols-6">
-            <input
-              className={`${inputClass} sm:col-span-2`}
-              placeholder="Label e.g. BIRCH PLYWOOD"
-              value={note.label}
-              onChange={(e) => {
-                const next = [...notes];
-                next[i] = { ...next[i], label: e.target.value };
-                onChange(next);
-              }}
-            />
-            <input
-              className={`${inputClass} sm:col-span-2`}
-              placeholder="Detail e.g. 12mm · structural body"
-              value={note.detail}
-              onChange={(e) => {
-                const next = [...notes];
-                next[i] = { ...next[i], detail: e.target.value };
-                onChange(next);
-              }}
-            />
-            <input
-              className={inputClass}
-              type="number"
-              placeholder="X %"
-              value={note.x}
-              onChange={(e) => {
-                const next = [...notes];
-                next[i] = { ...next[i], x: Number(e.target.value) };
-                onChange(next);
-              }}
-            />
-            <div className="flex gap-2">
-              <input
-                className={inputClass}
-                type="number"
-                placeholder="Y %"
-                value={note.y}
-                onChange={(e) => {
-                  const next = [...notes];
-                  next[i] = { ...next[i], y: Number(e.target.value) };
-                  onChange(next);
-                }}
-              />
-              <button
-                type="button"
-                onClick={() => onChange(notes.filter((_, idx) => idx !== i))}
-                className="shrink-0 rounded-full p-1.5 text-ink-soft hover:bg-red-100 hover:text-red-600"
-                aria-label="Remove"
-              >
-                <Trash2 size={15} />
-              </button>
-            </div>
-          </div>
-        ))}
-        {notes.length === 0 && <p className="text-xs text-ink-soft">No material labels yet.</p>}
       </div>
     </div>
   );
@@ -467,17 +385,13 @@ export default function AdminPage() {
               />
             </div>
 
-            {/* Materials */}
+            {/* Deliverables */}
             <div className="space-y-4 border-t border-ink/10 pt-6">
-              <p className="font-display text-lg font-semibold">Materials & Making (optional)</p>
+              <p className="font-display text-lg font-semibold">Deliverables</p>
               <ImageSlot
-                label="Materials photo"
+                label="Deliverables photo"
                 value={active.materialsImage ?? ""}
                 onChange={(url) => updateActive({ materialsImage: url })}
-              />
-              <MaterialsEditor
-                notes={active.materials ?? []}
-                onChange={(notes) => updateActive({ materials: notes })}
               />
             </div>
 

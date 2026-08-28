@@ -81,7 +81,7 @@ export default async function ProjectPage({ params }: PageProps<"/works/[slug]">
 
       <Reveal>
         <div className="mx-auto max-w-6xl px-6 md:px-10">
-          <Plate seed={project.slug} src={project.cover} label={project.coverAlt} fit="contain" className="rounded-2xl" />
+          <Plate seed={project.slug} src={project.cover} label={project.coverAlt} fit="contain" />
         </div>
       </Reveal>
 
@@ -91,7 +91,7 @@ export default async function ProjectPage({ params }: PageProps<"/works/[slug]">
           <div className="space-y-8">
             {project.outcome.map((r, i) => (
               <div key={i}>
-                <Plate seed={`${project.slug}-final-${i}`} src={r.image} fit="contain" className="rounded-2xl" />
+                <Plate seed={`${project.slug}-final-${i}`} src={r.image} fit="contain" />
                 {r.caption && <p className="mt-3 text-sm text-ink-soft">{r.caption}</p>}
               </div>
             ))}
@@ -99,12 +99,12 @@ export default async function ProjectPage({ params }: PageProps<"/works/[slug]">
         </Section>
       )}
 
-      {/* Materials */}
-      {project.materials && project.materials.length > 0 && (
-        <Section eyebrow="02 — Materials & Making" title="Material study">
+      {/* Deliverables */}
+      {(project.materialsImage || (project.materials && project.materials.length > 0)) && (
+        <Section eyebrow="02 — Deliverables" title="Deliverables">
           <div className="relative">
-            <Plate seed={`${project.slug}-materials`} src={project.materialsImage} ratio="aspect-[16/9]" className="rounded-2xl" />
-            {project.materials.map((m, i) => (
+            <Plate seed={`${project.slug}-materials`} src={project.materialsImage} fit="contain" />
+            {project.materials?.map((m, i) => (
               <div
                 key={i}
                 style={{ left: `${m.x}%`, top: `${m.y}%` }}

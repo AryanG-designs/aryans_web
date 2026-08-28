@@ -35,7 +35,7 @@ export default function AboutPage() {
       <div className="mx-auto max-w-6xl">
         <div className="grid gap-14 lg:grid-cols-[0.9fr_1.1fr] lg:items-center">
           <Reveal>
-            <Plate seed="portrait" ratio="aspect-[4/5]" className="rounded-2xl" label="Aryan, studio 2025" />
+            <Plate seed="portrait" ratio="aspect-[4/5]" label="Aryan, studio 2025" />
           </Reveal>
           <Reveal delay={0.1}>
             <p className="mb-2 text-xs uppercase tracking-[0.16em] text-coral-deep">About</p>
