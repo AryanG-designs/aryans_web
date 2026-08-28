@@ -36,6 +36,7 @@ export type Project = {
   process: { image: string; caption: string }[];
   materials?: MaterialNote[];
   materialsImage?: string;
+  deliverables?: string[];
   outcome: { image: string; caption: string }[];
   reflection: string;
   tools: string[];

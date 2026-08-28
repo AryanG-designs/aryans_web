@@ -53,6 +53,55 @@ const inputClass =
 
 type Gallery = { image: string; caption: string }[];
 
+function MultiImageUploader({
+  label,
+  images,
+  onChange,
+}: {
+  label: string;
+  images: string[];
+  onChange: (images: string[]) => void;
+}) {
+  return (
+    <div>
+      <div className="mb-2 flex items-center justify-between">
+        <p className="text-sm font-semibold">{label}</p>
+        <button
+          type="button"
+          onClick={() => onChange([...images, ""])}
+          className="inline-flex items-center gap-1 rounded-full border border-ink/20 px-2.5 py-1 text-xs uppercase tracking-[0.08em] hover:bg-ink hover:text-cream"
+        >
+          <Plus size={12} /> Add image
+        </button>
+      </div>
+      <div className="space-y-3">
+        {images.map((img, i) => (
+          <div key={i} className="flex items-center gap-3 rounded-xl bg-cream-deep/40 p-3">
+            <ImageSlot
+              label={`Slide ${i + 1}`}
+              value={img}
+              onChange={(url) => {
+                const next = [...images];
+                next[i] = url;
+                onChange(next);
+              }}
+            />
+            <button
+              type="button"
+              onClick={() => onChange(images.filter((_, idx) => idx !== i))}
+              className="mt-6 rounded-full p-1.5 text-ink-soft hover:bg-red-100 hover:text-red-600"
+              aria-label="Remove"
+            >
+              <Trash2 size={15} />
+            </button>
+          </div>
+        ))}
+        {images.length === 0 && <p className="text-xs text-ink-soft">No images yet.</p>}
+      </div>
+    </div>
+  );
+}
+
 function GalleryEditor({
   label,
   items,
@@ -386,12 +435,17 @@ export default function AdminPage() {
             </div>
 
             {/* Deliverables */}
-            <div className="space-y-4 border-t border-ink/10 pt-6">
-              <p className="font-display text-lg font-semibold">Deliverables</p>
-              <ImageSlot
-                label="Deliverables photo"
-                value={active.materialsImage ?? ""}
-                onChange={(url) => updateActive({ materialsImage: url })}
+            <div className="border-t border-ink/10 pt-6">
+              <MultiImageUploader
+                label="Deliverables (slideshow)"
+                images={
+                  active.deliverables && active.deliverables.length > 0
+                    ? active.deliverables
+                    : active.materialsImage
+                      ? [active.materialsImage]
+                      : []
+                }
+                onChange={(images) => updateActive({ deliverables: images, materialsImage: undefined })}
               />
             </div>
 

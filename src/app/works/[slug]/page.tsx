@@ -5,6 +5,7 @@ import Reveal from "@/components/Reveal";
 import Link from "next/link";
 import { ArrowLeft, ArrowUpRight } from "lucide-react";
 import ProjectCard from "@/components/ProjectCard";
+import DeliverablesSlideshow from "@/components/DeliverablesSlideshow";
 
 export const dynamic = "force-dynamic";
 
@@ -38,6 +39,13 @@ export default async function ProjectPage({ params }: PageProps<"/works/[slug]">
   if (!project) return notFound();
 
   const others = (await getProjects()).filter((p) => p.slug !== project.slug).slice(0, 3);
+
+  const deliverableImages =
+    project.deliverables && project.deliverables.length > 0
+      ? project.deliverables
+      : project.materialsImage
+        ? [project.materialsImage]
+        : [];
 
   return (
     <div>
@@ -100,24 +108,9 @@ export default async function ProjectPage({ params }: PageProps<"/works/[slug]">
       )}
 
       {/* Deliverables */}
-      {(project.materialsImage || (project.materials && project.materials.length > 0)) && (
+      {deliverableImages.length > 0 && (
         <Section eyebrow="02 — Deliverables" title="Deliverables">
-          <div className="relative">
-            <Plate seed={`${project.slug}-materials`} src={project.materialsImage} fit="contain" />
-            {project.materials?.map((m, i) => (
-              <div
-                key={i}
-                style={{ left: `${m.x}%`, top: `${m.y}%` }}
-                className="absolute -translate-x-1/2 -translate-y-1/2"
-              >
-                <div className="flex items-center gap-2 rounded-full bg-cream/95 px-3 py-1.5 shadow-md">
-                  <span className="h-2 w-2 rounded-full bg-coral-deep" />
-                  <span className="text-xs font-semibold uppercase tracking-[0.08em]">{m.label}</span>
-                </div>
-                <p className="mt-1 ml-4 text-[11px] text-ink-soft">{m.detail}</p>
-              </div>
-            ))}
-          </div>
+          <DeliverablesSlideshow images={deliverableImages} />
         </Section>
       )}
 
