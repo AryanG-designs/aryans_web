@@ -8,12 +8,30 @@ import { SiteSettings } from "@/lib/settings";
 
 export default function ContactClient({ settings }: { settings: SiteSettings }) {
   const [sent, setSent] = useState(false);
+  const [sending, setSending] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [form, setForm] = useState({ name: "", email: "", subject: "", message: "" });
   const { instagram, linkedin, behance } = settings.socials;
   const hasSocials = instagram || linkedin || behance;
 
-  function handleSubmit(e: React.FormEvent) {
+  async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
-    setSent(true);
+    setSending(true);
+    setError(null);
+    try {
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(form),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || "Failed to send message.");
+      setSent(true);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Failed to send message.");
+    } finally {
+      setSending(false);
+    }
   }
 
   return (
@@ -118,6 +136,8 @@ export default function ContactClient({ settings }: { settings: SiteSettings }) 
                     <input
                       required
                       type="text"
+                      value={form.name}
+                      onChange={(e) => setForm({ ...form, name: e.target.value })}
                       className="mt-2 w-full rounded-lg border border-ink/15 bg-transparent px-4 py-3 outline-none transition-colors focus:border-coral-deep"
                     />
                   </div>
@@ -126,6 +146,8 @@ export default function ContactClient({ settings }: { settings: SiteSettings }) 
                     <input
                       required
                       type="email"
+                      value={form.email}
+                      onChange={(e) => setForm({ ...form, email: e.target.value })}
                       className="mt-2 w-full rounded-lg border border-ink/15 bg-transparent px-4 py-3 outline-none transition-colors focus:border-coral-deep"
                     />
                   </div>
@@ -135,6 +157,8 @@ export default function ContactClient({ settings }: { settings: SiteSettings }) 
                   <input
                     required
                     type="text"
+                    value={form.subject}
+                    onChange={(e) => setForm({ ...form, subject: e.target.value })}
                     className="mt-2 w-full rounded-lg border border-ink/15 bg-transparent px-4 py-3 outline-none transition-colors focus:border-coral-deep"
                   />
                 </div>
@@ -143,14 +167,18 @@ export default function ContactClient({ settings }: { settings: SiteSettings }) 
                   <textarea
                     required
                     rows={5}
+                    value={form.message}
+                    onChange={(e) => setForm({ ...form, message: e.target.value })}
                     className="mt-2 w-full rounded-lg border border-ink/15 bg-transparent px-4 py-3 outline-none transition-colors focus:border-coral-deep"
                   />
                 </div>
+                {error && <p className="text-sm text-red-600">{error}</p>}
                 <button
                   type="submit"
-                  className="group inline-flex items-center gap-2 rounded-full bg-ink px-6 py-3 text-sm uppercase tracking-[0.12em] text-cream transition-transform hover:-translate-y-0.5"
+                  disabled={sending}
+                  className="group inline-flex items-center gap-2 rounded-full bg-ink px-6 py-3 text-sm uppercase tracking-[0.12em] text-cream transition-transform hover:-translate-y-0.5 disabled:opacity-60"
                 >
-                  Send message
+                  {sending ? "Sending…" : "Send message"}
                   <ArrowUpRight size={15} className="transition-transform group-hover:translate-x-0.5" />
                 </button>
               </form>
