@@ -20,11 +20,24 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: "Image must be under 25MB." }, { status: 400 });
   }
 
-  const safeName = file.name.replace(/[^a-zA-Z0-9.\-_]/g, "-");
-  const blob = await put(`uploads/${Date.now()}-${safeName}`, file, {
-    access: "public",
-    addRandomSuffix: true,
-  });
+  if (!process.env.BLOB_READ_WRITE_TOKEN) {
+    return NextResponse.json(
+      { error: "Image storage isn't connected yet. In Vercel, go to Storage → Create Database → Blob, then redeploy." },
+      { status: 500 }
+    );
+  }
 
-  return NextResponse.json({ url: blob.url });
+  try {
+    const safeName = file.name.replace(/[^a-zA-Z0-9.\-_]/g, "-");
+    const blob = await put(`uploads/${Date.now()}-${safeName}`, file, {
+      access: "public",
+      addRandomSuffix: true,
+    });
+    return NextResponse.json({ url: blob.url });
+  } catch (e) {
+    return NextResponse.json(
+      { error: e instanceof Error ? e.message : "Upload failed unexpectedly." },
+      { status: 500 }
+    );
+  }
 }

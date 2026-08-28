@@ -25,8 +25,9 @@ export default function ImageSlot({
       const form = new FormData();
       form.append("file", file);
       const res = await fetch("/api/admin/upload", { method: "POST", body: form });
-      const data = await res.json();
-      if (!res.ok) throw new Error(data.error || "Upload failed");
+      const text = await res.text();
+      const data = text ? JSON.parse(text) : {};
+      if (!res.ok) throw new Error(data.error || `Upload failed (${res.status})`);
       onChange(data.url);
     } catch (e) {
       setError(e instanceof Error ? e.message : "Upload failed");
