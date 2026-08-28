@@ -21,46 +21,54 @@ export default function FlipSlideshow({ items }: { items: SlideItem[] }) {
 
   return (
     <div>
-      <div
-        className="relative w-full overflow-hidden bg-cream-deep/40"
-        style={{ perspective: 1600 }}
-      >
-        <AnimatePresence mode="wait" custom={direction}>
-          <motion.div
-            key={index}
-            custom={direction}
-            initial={{ rotateY: direction > 0 ? 90 : -90, opacity: 0 }}
-            animate={{ rotateY: 0, opacity: 1 }}
-            exit={{ rotateY: direction > 0 ? -90 : 90, opacity: 0 }}
-            transition={{ duration: 0.5, ease: [0.65, 0, 0.35, 1] }}
-            style={{ transformStyle: "preserve-3d", backfaceVisibility: "hidden" }}
-          >
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src={current.image} alt={current.caption ?? `Slide ${index + 1}`} className="block h-auto w-full" />
-          </motion.div>
-        </AnimatePresence>
+      <div className="flex items-center gap-3 sm:gap-6">
+        <button
+          onClick={() => go(index - 1)}
+          aria-label="Previous"
+          disabled={items.length <= 1}
+          className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-cream shadow-md transition-transform hover:scale-105 disabled:opacity-30 disabled:hover:scale-100 sm:h-12 sm:w-12"
+        >
+          <ChevronLeft size={20} />
+        </button>
 
-        {items.length > 1 && (
-          <>
-            <button
-              onClick={() => go(index - 1)}
-              aria-label="Previous"
-              className="absolute left-3 top-1/2 -translate-y-1/2 rounded-full bg-cream/90 p-2 shadow-md transition-transform hover:scale-105"
+        <div
+          className="relative flex-1 overflow-hidden bg-cream-deep/40"
+          style={{ perspective: 1600 }}
+        >
+          <AnimatePresence mode="wait" custom={direction}>
+            <motion.div
+              key={index}
+              custom={direction}
+              initial={{ rotateY: direction > 0 ? 90 : -90, opacity: 0 }}
+              animate={{ rotateY: 0, opacity: 1 }}
+              exit={{ rotateY: direction > 0 ? -90 : 90, opacity: 0 }}
+              transition={{ duration: 0.5, ease: [0.65, 0, 0.35, 1] }}
+              style={{ transformStyle: "preserve-3d", backfaceVisibility: "hidden" }}
+              className="flex items-center justify-center"
             >
-              <ChevronLeft size={18} />
-            </button>
-            <button
-              onClick={() => go(index + 1)}
-              aria-label="Next"
-              className="absolute right-3 top-1/2 -translate-y-1/2 rounded-full bg-cream/90 p-2 shadow-md transition-transform hover:scale-105"
-            >
-              <ChevronRight size={18} />
-            </button>
-          </>
-        )}
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src={current.image}
+                alt={current.caption ?? `Slide ${index + 1}`}
+                className="max-h-[65vh] w-auto max-w-full object-contain"
+              />
+            </motion.div>
+          </AnimatePresence>
+        </div>
+
+        <button
+          onClick={() => go(index + 1)}
+          aria-label="Next"
+          disabled={items.length <= 1}
+          className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-cream shadow-md transition-transform hover:scale-105 disabled:opacity-30 disabled:hover:scale-100 sm:h-12 sm:w-12"
+        >
+          <ChevronRight size={20} />
+        </button>
       </div>
 
-      {current.caption && <p className="mt-3 text-sm text-ink-soft">{current.caption}</p>}
+      {current.caption && (
+        <p className="mt-3 text-center text-sm text-ink-soft">{current.caption}</p>
+      )}
 
       {items.length > 1 && (
         <div className="mt-4 flex justify-center gap-2">
