@@ -4,6 +4,7 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import { Project, categories } from "@/lib/projects";
 import ProjectCard from "@/components/ProjectCard";
+import VideoNavCard from "@/components/VideoNavCard";
 
 export default function WorksClient({ projects }: { projects: Project[] }) {
   const [active, setActive] = useState<(typeof categories)[number]>("All");
@@ -33,11 +34,12 @@ export default function WorksClient({ projects }: { projects: Project[] }) {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
-        className="mt-14 grid gap-x-8 gap-y-14 sm:grid-cols-2 lg:grid-cols-3"
+        className="mt-14 grid gap-x-8 gap-y-14 sm:grid-cols-2 lg:grid-cols-4"
       >
         {filtered.map((p) => (
           <ProjectCard key={p.slug} project={p} size="medium" />
         ))}
+        {active === "All" && <VideoNavCard />}
       </motion.div>
 
       {filtered.length === 0 && (

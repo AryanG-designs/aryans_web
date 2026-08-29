@@ -1,15 +1,29 @@
 "use client";
 
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import { Play, X } from "lucide-react";
+import { Play, X, PictureInPicture2 } from "lucide-react";
 import { Video } from "@/lib/videos";
 import { getEmbedUrl } from "@/lib/videoEmbed";
 import Plate from "@/components/Plate";
 
 export default function VideoGrid({ videos }: { videos: Video[] }) {
   const [active, setActive] = useState<Video | null>(null);
-  const embedUrl = active ? getEmbedUrl(active.videoUrl) : null;
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const embedUrl = active && !active.videoFile ? getEmbedUrl(active.videoUrl) : null;
+
+  async function handlePiP() {
+    if (!videoRef.current) return;
+    try {
+      if (document.pictureInPictureElement) {
+        await document.exitPictureInPicture();
+      } else {
+        await videoRef.current.requestPictureInPicture();
+      }
+    } catch {
+      // Picture-in-Picture isn't supported in this browser — ignore.
+    }
+  }
 
   return (
     <>
@@ -53,16 +67,36 @@ export default function VideoGrid({ videos }: { videos: Video[] }) {
             >
               <div className="mb-3 flex items-center justify-between">
                 <h3 className="font-display text-lg text-cream">{active.title}</h3>
-                <button
-                  onClick={() => setActive(null)}
-                  aria-label="Close"
-                  className="rounded-full bg-cream/10 p-2 text-cream hover:bg-cream/20"
-                >
-                  <X size={18} />
-                </button>
+                <div className="flex items-center gap-2">
+                  {active.videoFile && (
+                    <button
+                      onClick={handlePiP}
+                      className="inline-flex items-center gap-1.5 rounded-full bg-cream/10 px-3 py-2 text-xs uppercase tracking-[0.08em] text-cream hover:bg-cream/20"
+                    >
+                      <PictureInPicture2 size={15} /> Pop out
+                    </button>
+                  )}
+                  <button
+                    onClick={() => setActive(null)}
+                    aria-label="Close"
+                    className="rounded-full bg-cream/10 p-2 text-cream hover:bg-cream/20"
+                  >
+                    <X size={18} />
+                  </button>
+                </div>
               </div>
 
-              {embedUrl ? (
+              {active.videoFile ? (
+                <div className="aspect-video w-full overflow-hidden bg-black">
+                  <video
+                    ref={videoRef}
+                    src={active.videoFile}
+                    controls
+                    autoPlay
+                    className="h-full w-full"
+                  />
+                </div>
+              ) : embedUrl ? (
                 <div className="aspect-video w-full overflow-hidden bg-black">
                   <iframe
                     src={embedUrl}

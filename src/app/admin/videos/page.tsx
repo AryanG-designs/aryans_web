@@ -5,6 +5,7 @@ import Link from "next/link";
 import { Video } from "@/lib/videos";
 import { slugify } from "@/lib/store";
 import ImageSlot from "@/components/admin/ImageSlot";
+import VideoFileSlot from "@/components/admin/VideoFileSlot";
 import { ArrowLeft, Plus, Trash2, Save, Check, Loader2 } from "lucide-react";
 
 const inputClass =
@@ -149,6 +150,16 @@ export default function AdminVideosPage() {
                 onChange={(e) => update(v.slug, { videoUrl: e.target.value })}
               />
             </Field>
+            <p className="-mt-2 text-xs text-ink-soft">
+              Or upload a video file directly below — that enables real Picture-in-Picture
+              playback on the site. If both are set, the uploaded file takes priority.
+            </p>
+
+            <VideoFileSlot
+              label="Video file (optional, enables PiP)"
+              value={v.videoFile}
+              onChange={(url) => update(v.slug, { videoFile: url || undefined })}
+            />
 
             <ImageSlot
               label="Thumbnail"

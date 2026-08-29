@@ -15,9 +15,9 @@ export async function POST(request: Request): Promise<NextResponse> {
           );
         }
         return {
-          allowedContentTypes: ["image/*"],
+          allowedContentTypes: ["image/*", "video/*"],
           addRandomSuffix: true,
-          maximumSizeInBytes: 25 * 1024 * 1024,
+          maximumSizeInBytes: 200 * 1024 * 1024,
         };
       },
       onUploadCompleted: async () => {
