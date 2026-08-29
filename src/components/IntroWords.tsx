@@ -28,16 +28,14 @@ export default function IntroWords() {
         <Reveal>
           <div className="grid gap-10 md:grid-cols-2">
             <p className="font-display text-2xl leading-snug md:text-3xl">
-              I'm a third-year design student working across product,
-              graphic, and experimental design.
+              I'm a fourth year student working across animation, VFX and
+              illustration.
             </p>
             <p className="text-ink-soft leading-relaxed">
-              My process usually starts with a material, a constraint, or a
-              question I can't quite answer — and I design my way toward an
-              answer. I'm interested in how things are made as much as what
-              they become: the failed prototypes, the material tests, the
-              sketchbook pages nobody sees. This site is an attempt to show
-              that thinking alongside the finished work.
+              My creative process begins with an idea and develops through
+              research, experimentation, and making. I start by exploring
+              the concept, gathering references, and building a visual
+              direction through sketches, moodboards, and story development.
             </p>
           </div>
         </Reveal>

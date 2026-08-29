@@ -61,8 +61,7 @@ export default function Hero() {
             transition={{ duration: 0.7, delay: 0.22 }}
             className="mt-6 max-w-md text-lg text-ink-soft"
           >
-            Drawing characters, worlds and motion through curiosity and
-            experimentation — a sketchbook, turned digital exhibition.
+            Here lies a digital exhibition of all my notable work and creations.
           </motion.p>
 
           <motion.div
