@@ -44,10 +44,16 @@ export default async function Home() {
           </Reveal>
 
           <Reveal delay={0.1} className="grid grid-cols-2 gap-4">
-            <Plate seed="teaser-1" label="Sketch" className="translate-y-6" />
-            <Plate seed="teaser-2" label="Material test" />
-            <Plate seed="teaser-3" label="Prototype v2" />
-            <Plate seed="teaser-4" label="Final" className="translate-y-6" />
+            {settings.sketchbookImages.map((s, i) => (
+              <Plate
+                key={i}
+                seed={`teaser-${i + 1}`}
+                src={s.image}
+                label={s.label}
+                fit="contain-boxed"
+                className={i === 0 || i === 3 ? "translate-y-6" : ""}
+              />
+            ))}
           </Reveal>
         </div>
       </section>

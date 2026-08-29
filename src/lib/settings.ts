@@ -11,6 +11,11 @@ export type HeroImage = {
   caption?: string;
 };
 
+export type SketchbookImage = {
+  image: string;
+  label: string;
+};
+
 export type SiteSettings = {
   email: string;
   phone: string;
@@ -24,6 +29,7 @@ export type SiteSettings = {
   };
   timeline: TimelineEntry[];
   heroImages: HeroImage[];
+  sketchbookImages: SketchbookImage[];
 };
 
 const SETTINGS_PATH = "data/settings.json";
@@ -41,6 +47,12 @@ export const defaultSettings: SiteSettings = {
     { year: "2022 — 2023", title: "Foundation in Art & Design", org: "City College" },
   ],
   heroImages: [],
+  sketchbookImages: [
+    { image: "", label: "Sketch" },
+    { image: "", label: "Material test" },
+    { image: "", label: "Prototype v2" },
+    { image: "", label: "Final" },
+  ],
 };
 
 export async function getSettings(): Promise<SiteSettings> {
@@ -57,6 +69,10 @@ export async function getSettings(): Promise<SiteSettings> {
       socials: { ...defaultSettings.socials, ...(data.socials ?? {}) },
       timeline: data.timeline && data.timeline.length > 0 ? data.timeline : defaultSettings.timeline,
       heroImages: data.heroImages ?? defaultSettings.heroImages,
+      sketchbookImages:
+        data.sketchbookImages && data.sketchbookImages.length > 0
+          ? data.sketchbookImages
+          : defaultSettings.sketchbookImages,
     };
   } catch {
     return defaultSettings;

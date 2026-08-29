@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { SiteSettings, TimelineEntry, HeroImage, defaultSettings } from "@/lib/settings";
+import { SiteSettings, TimelineEntry, HeroImage, SketchbookImage, defaultSettings } from "@/lib/settings";
 import ImageSlot from "@/components/admin/ImageSlot";
 import { ArrowLeft, Save, Check, Loader2, Plus, Trash2 } from "lucide-react";
 
@@ -147,6 +147,53 @@ function HeroImagesEditor({
           </div>
         ))}
         {images.length === 0 && <p className="text-xs text-ink-soft">No hero images yet — the homepage falls back to your featured projects.</p>}
+      </div>
+    </div>
+  );
+}
+
+function SketchbookImagesEditor({
+  images,
+  onChange,
+}: {
+  images: SketchbookImage[];
+  onChange: (images: SketchbookImage[]) => void;
+}) {
+  return (
+    <div className="space-y-4 border-t border-ink/10 pt-6">
+      <div>
+        <p className="font-display text-lg font-semibold">Sketchbook Teaser</p>
+        <p className="text-xs text-ink-soft">
+          The 4-image grid on the homepage ("Not just what I made — how I got there").
+        </p>
+      </div>
+      <div className="space-y-3">
+        {images.map((item, i) => (
+          <div key={i} className="flex items-center gap-3 rounded-xl bg-cream-deep/40 p-3">
+            <ImageSlot
+              label={`Slot ${i + 1}`}
+              value={item.image}
+              onChange={(url) => {
+                const next = [...images];
+                next[i] = { ...next[i], image: url };
+                onChange(next);
+              }}
+            />
+            <div className="flex-1">
+              <p className="mb-1.5 text-xs uppercase tracking-[0.1em] text-ink-soft">Label</p>
+              <input
+                className={inputClass}
+                placeholder="e.g. Sketch"
+                value={item.label}
+                onChange={(e) => {
+                  const next = [...images];
+                  next[i] = { ...next[i], label: e.target.value };
+                  onChange(next);
+                }}
+              />
+            </div>
+          </div>
+        ))}
       </div>
     </div>
   );
@@ -309,6 +356,11 @@ export default function AdminSettingsPage() {
         <HeroImagesEditor
           images={settings.heroImages}
           onChange={(images) => setSettings({ ...settings, heroImages: images })}
+        />
+
+        <SketchbookImagesEditor
+          images={settings.sketchbookImages}
+          onChange={(images) => setSettings({ ...settings, sketchbookImages: images })}
         />
       </div>
     </div>
