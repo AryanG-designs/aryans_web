@@ -5,8 +5,12 @@ import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
 import Link from "next/link";
 import Plate from "./Plate";
 import { ArrowDownRight } from "lucide-react";
+import { Project } from "@/lib/projects";
 
-export default function Hero() {
+export default function Hero({ projects = [] }: { projects?: Project[] }) {
+  const withCover = projects.filter((p) => p.cover);
+  const first = withCover[0];
+  const second = withCover[1];
   const ref = useRef<HTMLDivElement>(null);
   const mx = useMotionValue(0);
   const my = useMotionValue(0);
@@ -89,10 +93,20 @@ export default function Hero() {
 
         <div className="relative h-[420px] md:h-[480px]">
           <motion.div style={{ x: t1x, y: t1y }} className="absolute right-4 top-0 w-[58%] shadow-xl">
-            <Plate seed="hero-1" label="Graphic Novel, 2025" ratio="aspect-[3/4]" />
+            <Plate
+              seed={first?.slug ?? "hero-1"}
+              src={first?.cover}
+              label={first ? `${first.title}, ${first.year}` : "Graphic Novel, 2025"}
+              ratio="aspect-[3/4]"
+            />
           </motion.div>
           <motion.div style={{ x: t2x, y: t2y }} className="absolute left-0 bottom-6 w-[46%] shadow-xl">
-            <Plate seed="hero-2" label="Sketchbook" ratio="aspect-square" />
+            <Plate
+              seed={second?.slug ?? "hero-2"}
+              src={second?.cover}
+              label={second ? `${second.title}, ${second.year}` : "Sketchbook"}
+              ratio="aspect-square"
+            />
           </motion.div>
           <motion.div
             style={{ x: t3x, y: t3y }}

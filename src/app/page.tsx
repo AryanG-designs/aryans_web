@@ -11,10 +11,11 @@ export const dynamic = "force-dynamic";
 
 export default async function Home() {
   const projects = await getProjects();
+  const heroProjects = [...projects].sort((a, b) => Number(b.featured) - Number(a.featured));
 
   return (
     <>
-      <Hero />
+      <Hero projects={heroProjects} />
       <IntroWords />
       <FeaturedWork projects={projects} />
 
