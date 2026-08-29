@@ -125,27 +125,29 @@ export default async function AboutPage() {
         </div>
 
         {/* Timeline */}
-        <div className="mt-28">
-          <Reveal>
-            <p className="mb-2 text-xs uppercase tracking-[0.16em] text-coral-deep">CV</p>
-            <h2 className="font-display text-3xl font-semibold tracking-tight md:text-4xl">
-              Education &amp; experience
-            </h2>
-          </Reveal>
-          <div className="mt-10 divide-y divide-ink/10 border-t border-ink/10">
-            {settings.timeline.map((t, i) => (
-              <Reveal key={i} delay={i * 0.05}>
-                <div className="flex flex-col gap-1 py-5 sm:flex-row sm:items-center sm:justify-between">
-                  <div>
-                    <p className="font-display text-lg font-semibold">{t.title}</p>
-                    <p className="text-sm text-ink-soft">{t.org}</p>
+        {settings.timeline.length > 0 && (
+          <div className="mt-28">
+            <Reveal>
+              <p className="mb-2 text-xs uppercase tracking-[0.16em] text-coral-deep">CV</p>
+              <h2 className="font-display text-3xl font-semibold tracking-tight md:text-4xl">
+                Education &amp; experience
+              </h2>
+            </Reveal>
+            <div className="mt-10 divide-y divide-ink/10 border-t border-ink/10">
+              {settings.timeline.map((t, i) => (
+                <Reveal key={i} delay={i * 0.05}>
+                  <div className="flex flex-col gap-1 py-5 sm:flex-row sm:items-center sm:justify-between">
+                    <div>
+                      <p className="font-display text-lg font-semibold">{t.title}</p>
+                      <p className="text-sm text-ink-soft">{t.org}</p>
+                    </div>
+                    <p className="text-sm text-ink-soft">{t.year}</p>
                   </div>
-                  <p className="text-sm text-ink-soft">{t.year}</p>
-                </div>
-              </Reveal>
-            ))}
+                </Reveal>
+              ))}
+            </div>
           </div>
-        </div>
+        )}
 
         <Reveal className="mt-28 text-center">
           <p className="font-display text-2xl md:text-3xl">

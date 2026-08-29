@@ -40,12 +40,7 @@ export const defaultSettings: SiteSettings = {
   showPhone: false,
   location: "",
   socials: { instagram: "", linkedin: "", behance: "", artstation: "" },
-  timeline: [
-    { year: "2023 — Present", title: "BA (Hons) Illustration & Animation", org: "State School of Design" },
-    { year: "2025", title: "Summer Studio Fellow", org: "Field & Co. Studio" },
-    { year: "2024", title: "Emerging Illustrator Award — Shortlist", org: "Student Design Awards" },
-    { year: "2022 — 2023", title: "Foundation in Art & Design", org: "City College" },
-  ],
+  timeline: [],
   heroImages: [],
   sketchbookImages: [
     { image: "", label: "Sketch" },
@@ -67,12 +62,9 @@ export async function getSettings(): Promise<SiteSettings> {
       ...defaultSettings,
       ...data,
       socials: { ...defaultSettings.socials, ...(data.socials ?? {}) },
-      timeline: data.timeline && data.timeline.length > 0 ? data.timeline : defaultSettings.timeline,
+      timeline: data.timeline !== undefined ? data.timeline : defaultSettings.timeline,
       heroImages: data.heroImages ?? defaultSettings.heroImages,
-      sketchbookImages:
-        data.sketchbookImages && data.sketchbookImages.length > 0
-          ? data.sketchbookImages
-          : defaultSettings.sketchbookImages,
+      sketchbookImages: data.sketchbookImages !== undefined ? data.sketchbookImages : defaultSettings.sketchbookImages,
     };
   } catch {
     return defaultSettings;
