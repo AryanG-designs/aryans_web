@@ -156,7 +156,7 @@ export default function AdminVideosPage() {
             </p>
 
             <VideoFileSlot
-              label="Video file (optional, enables PiP)"
+              label="MP4 video file (optional, enables PiP)"
               value={v.videoFile}
               onChange={(url) => update(v.slug, { videoFile: url || undefined })}
             />

@@ -67,7 +67,7 @@ export default function VideoFileSlot({
         <input
           ref={inputRef}
           type="file"
-          accept="video/*"
+          accept="video/mp4,video/quicktime,video/webm,video/*,.mp4,.mov"
           className="hidden"
           onChange={(e) => {
             const file = e.target.files?.[0];
