@@ -32,8 +32,13 @@ export default function Plate({
   label?: string;
   className?: string;
   ratio?: string;
-  /** "cover" crops to fill a fixed box (grid cards); "contain" shows the full image at its natural aspect ratio. */
-  fit?: "cover" | "contain";
+  /**
+   * "cover" crops to fill a fixed box; "contain" shows the full image at its
+   * natural aspect ratio with no fixed box; "contain-boxed" fits the whole
+   * image inside a fixed-ratio box, letterboxed with black on any leftover
+   * space (used for uniform grid cards without cropping).
+   */
+  fit?: "cover" | "contain" | "contain-boxed";
 }) {
   const hasRealImage = !!src && src.startsWith("http");
 
@@ -42,6 +47,20 @@ export default function Plate({
       <div className={`relative overflow-hidden ${className}`}>
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img src={src} alt={label ?? ""} className="block h-auto w-full" />
+        {label && (
+          <span className="absolute bottom-3 left-3 rounded-full bg-ink/80 px-3 py-1 text-[10px] uppercase tracking-[0.14em] text-cream backdrop-blur-sm">
+            {label}
+          </span>
+        )}
+      </div>
+    );
+  }
+
+  if (hasRealImage && fit === "contain-boxed") {
+    return (
+      <div className={`relative overflow-hidden bg-black ${ratio} ${className}`}>
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img src={src} alt={label ?? ""} className="h-full w-full object-contain" />
         {label && (
           <span className="absolute bottom-3 left-3 rounded-full bg-ink/80 px-3 py-1 text-[10px] uppercase tracking-[0.14em] text-cream backdrop-blur-sm">
             {label}

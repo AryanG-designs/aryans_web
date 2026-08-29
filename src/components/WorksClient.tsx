@@ -36,7 +36,7 @@ export default function WorksClient({ projects }: { projects: Project[] }) {
         className="mt-14 grid gap-x-8 gap-y-14 sm:grid-cols-2 lg:grid-cols-3"
       >
         {filtered.map((p) => (
-          <ProjectCard key={p.slug} project={p} size={p.size} />
+          <ProjectCard key={p.slug} project={p} size="medium" />
         ))}
       </motion.div>
 
