@@ -40,14 +40,20 @@ export default function FlipSlideshow({ items }: { items: SlideItem[] }) {
               animate={{ scaleX: 1, opacity: 1 }}
               exit={{ scaleX: 0, opacity: 0 }}
               transition={{ duration: 0.4, ease: [0.65, 0, 0.35, 1] }}
-              style={{ gridArea: "1 / 1" }}
-              className="flex h-full w-full items-center justify-center"
+              style={{ gridArea: "1 / 1", width: "100%", height: "100%", display: "flex", alignItems: "center", justifyContent: "center" }}
             >
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src={current.image}
                 alt={current.caption ?? `Slide ${index + 1}`}
-                className="h-full max-h-full w-full max-w-full object-contain"
+                style={{
+                  maxWidth: "100%",
+                  maxHeight: "100%",
+                  width: "auto",
+                  height: "auto",
+                  objectFit: "contain",
+                  display: "block",
+                }}
               />
             </motion.div>
           </AnimatePresence>
