@@ -2,6 +2,7 @@ import Reveal from "@/components/Reveal";
 import Plate from "@/components/Plate";
 import Link from "next/link";
 import { Download } from "lucide-react";
+import { getSettings } from "@/lib/settings";
 
 export const dynamic = "force-dynamic";
 
@@ -24,14 +25,9 @@ const skillGroups = [
   },
 ];
 
-const timeline = [
-  { year: "2023 — Present", title: "BA (Hons) Illustration & Animation", org: "State School of Design" },
-  { year: "2025", title: "Summer Studio Fellow", org: "Field & Co. Studio" },
-  { year: "2024", title: "Emerging Illustrator Award — Shortlist", org: "Student Design Awards" },
-  { year: "2022 — 2023", title: "Foundation in Art & Design", org: "City College" },
-];
+export default async function AboutPage() {
+  const settings = await getSettings();
 
-export default function AboutPage() {
   return (
     <div className="px-6 pb-28 pt-16 md:px-10 md:pt-24">
       <div className="mx-auto max-w-6xl">
@@ -135,7 +131,7 @@ export default function AboutPage() {
             </h2>
           </Reveal>
           <div className="mt-10 divide-y divide-ink/10 border-t border-ink/10">
-            {timeline.map((t, i) => (
+            {settings.timeline.map((t, i) => (
               <Reveal key={i} delay={i * 0.05}>
                 <div className="flex flex-col gap-1 py-5 sm:flex-row sm:items-center sm:justify-between">
                   <div>

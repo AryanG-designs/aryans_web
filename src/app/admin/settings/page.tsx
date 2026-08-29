@@ -2,8 +2,8 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { SiteSettings, defaultSettings } from "@/lib/settings";
-import { ArrowLeft, Save, Check, Loader2 } from "lucide-react";
+import { SiteSettings, TimelineEntry, defaultSettings } from "@/lib/settings";
+import { ArrowLeft, Save, Check, Loader2, Plus, Trash2 } from "lucide-react";
 
 const inputClass =
   "w-full rounded-lg border border-ink/15 bg-transparent px-3 py-2 text-sm outline-none transition-colors focus:border-coral-deep";
@@ -14,6 +14,74 @@ function Field({ label, children }: { label: string; children: React.ReactNode }
       <span className="mb-1.5 block text-xs uppercase tracking-[0.1em] text-ink-soft">{label}</span>
       {children}
     </label>
+  );
+}
+
+function TimelineEditor({
+  entries,
+  onChange,
+}: {
+  entries: TimelineEntry[];
+  onChange: (entries: TimelineEntry[]) => void;
+}) {
+  return (
+    <div className="space-y-4 border-t border-ink/10 pt-6">
+      <div className="flex items-center justify-between">
+        <p className="font-display text-lg font-semibold">Education & Experience</p>
+        <button
+          type="button"
+          onClick={() => onChange([...entries, { year: "", title: "", org: "" }])}
+          className="inline-flex items-center gap-1 rounded-full border border-ink/20 px-2.5 py-1 text-xs uppercase tracking-[0.08em] hover:bg-ink hover:text-cream"
+        >
+          <Plus size={12} /> Add entry
+        </button>
+      </div>
+      <div className="space-y-3">
+        {entries.map((entry, i) => (
+          <div key={i} className="grid grid-cols-1 gap-2 rounded-xl bg-cream-deep/40 p-3 sm:grid-cols-[1fr_1fr_auto_auto]">
+            <input
+              className={inputClass}
+              placeholder="Title e.g. BA (Hons) Illustration"
+              value={entry.title}
+              onChange={(e) => {
+                const next = [...entries];
+                next[i] = { ...next[i], title: e.target.value };
+                onChange(next);
+              }}
+            />
+            <input
+              className={inputClass}
+              placeholder="Organisation e.g. State School of Design"
+              value={entry.org}
+              onChange={(e) => {
+                const next = [...entries];
+                next[i] = { ...next[i], org: e.target.value };
+                onChange(next);
+              }}
+            />
+            <input
+              className={inputClass}
+              placeholder="Year(s) e.g. 2023 — Present"
+              value={entry.year}
+              onChange={(e) => {
+                const next = [...entries];
+                next[i] = { ...next[i], year: e.target.value };
+                onChange(next);
+              }}
+            />
+            <button
+              type="button"
+              onClick={() => onChange(entries.filter((_, idx) => idx !== i))}
+              className="flex shrink-0 items-center justify-center rounded-full p-1.5 text-ink-soft hover:bg-red-100 hover:text-red-600"
+              aria-label="Remove"
+            >
+              <Trash2 size={15} />
+            </button>
+          </div>
+        ))}
+        {entries.length === 0 && <p className="text-xs text-ink-soft">No entries yet.</p>}
+      </div>
+    </div>
   );
 }
 
@@ -154,7 +222,22 @@ export default function AdminSettingsPage() {
               }
             />
           </Field>
+          <Field label="ArtStation URL">
+            <input
+              className={inputClass}
+              placeholder="https://artstation.com/username"
+              value={settings.socials.artstation}
+              onChange={(e) =>
+                setSettings({ ...settings, socials: { ...settings.socials, artstation: e.target.value } })
+              }
+            />
+          </Field>
         </div>
+
+        <TimelineEditor
+          entries={settings.timeline}
+          onChange={(entries) => setSettings({ ...settings, timeline: entries })}
+        />
       </div>
     </div>
   );

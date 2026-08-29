@@ -1,5 +1,11 @@
 import { list, put } from "@vercel/blob";
 
+export type TimelineEntry = {
+  year: string;
+  title: string;
+  org: string;
+};
+
 export type SiteSettings = {
   email: string;
   phone: string;
@@ -9,7 +15,9 @@ export type SiteSettings = {
     instagram: string;
     linkedin: string;
     behance: string;
+    artstation: string;
   };
+  timeline: TimelineEntry[];
 };
 
 const SETTINGS_PATH = "data/settings.json";
@@ -19,7 +27,13 @@ export const defaultSettings: SiteSettings = {
   phone: "",
   showPhone: false,
   location: "",
-  socials: { instagram: "", linkedin: "", behance: "" },
+  socials: { instagram: "", linkedin: "", behance: "", artstation: "" },
+  timeline: [
+    { year: "2023 — Present", title: "BA (Hons) Illustration & Animation", org: "State School of Design" },
+    { year: "2025", title: "Summer Studio Fellow", org: "Field & Co. Studio" },
+    { year: "2024", title: "Emerging Illustrator Award — Shortlist", org: "Student Design Awards" },
+    { year: "2022 — 2023", title: "Foundation in Art & Design", org: "City College" },
+  ],
 };
 
 export async function getSettings(): Promise<SiteSettings> {
@@ -34,6 +48,7 @@ export async function getSettings(): Promise<SiteSettings> {
       ...defaultSettings,
       ...data,
       socials: { ...defaultSettings.socials, ...(data.socials ?? {}) },
+      timeline: data.timeline && data.timeline.length > 0 ? data.timeline : defaultSettings.timeline,
     };
   } catch {
     return defaultSettings;

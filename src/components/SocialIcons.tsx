@@ -23,3 +23,11 @@ export function BehanceIcon({ size = 16 }: { size?: number }) {
     </svg>
   );
 }
+
+export function ArtstationIcon({ size = 16 }: { size?: number }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="currentColor">
+      <path d="M13.98 3.5H10L18.03 17.5H21.98L13.98 3.5ZM8.13 6.4L2.02 17.5H5.94L8.9 12.1L11.86 17.5H15.78L9.67 6.4H8.13ZM2.02 19.3H21.98V21.5H2.02V19.3Z" />
+    </svg>
+  );
+}

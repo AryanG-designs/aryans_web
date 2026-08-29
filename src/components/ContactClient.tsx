@@ -3,7 +3,7 @@
 import { useState } from "react";
 import Reveal from "@/components/Reveal";
 import { Mail, Phone, ArrowUpRight } from "lucide-react";
-import { InstagramIcon, LinkedinIcon, BehanceIcon } from "@/components/SocialIcons";
+import { InstagramIcon, LinkedinIcon, BehanceIcon, ArtstationIcon } from "@/components/SocialIcons";
 import { SiteSettings } from "@/lib/settings";
 
 export default function ContactClient({ settings }: { settings: SiteSettings }) {
@@ -11,8 +11,8 @@ export default function ContactClient({ settings }: { settings: SiteSettings }) 
   const [sending, setSending] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [form, setForm] = useState({ name: "", email: "", subject: "", message: "" });
-  const { instagram, linkedin, behance } = settings.socials;
-  const hasSocials = instagram || linkedin || behance;
+  const { instagram, linkedin, behance, artstation } = settings.socials;
+  const hasSocials = instagram || linkedin || behance || artstation;
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -114,6 +114,17 @@ export default function ContactClient({ settings }: { settings: SiteSettings }) 
                         className="rounded-full border border-ink/15 p-3 transition-colors hover:bg-coral"
                       >
                         <BehanceIcon size={16} />
+                      </a>
+                    )}
+                    {artstation && (
+                      <a
+                        href={artstation}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        aria-label="ArtStation"
+                        className="rounded-full border border-ink/15 p-3 transition-colors hover:bg-coral"
+                      >
+                        <ArtstationIcon size={16} />
                       </a>
                     )}
                   </div>

@@ -1,11 +1,11 @@
 import Link from "next/link";
-import { InstagramIcon, LinkedinIcon, BehanceIcon } from "./SocialIcons";
+import { InstagramIcon, LinkedinIcon, BehanceIcon, ArtstationIcon } from "./SocialIcons";
 import { getSettings } from "@/lib/settings";
 
 export default async function Footer() {
   const settings = await getSettings();
-  const { instagram, linkedin, behance } = settings.socials;
-  const hasSocials = instagram || linkedin || behance;
+  const { instagram, linkedin, behance, artstation } = settings.socials;
+  const hasSocials = instagram || linkedin || behance || artstation;
 
   return (
     <footer className="border-t border-ink/10 bg-cream-deep/60">
@@ -55,6 +55,17 @@ export default async function Footer() {
                   className="rounded-full border border-ink/15 p-2.5 transition-colors hover:bg-coral"
                 >
                   <BehanceIcon size={16} />
+                </a>
+              )}
+              {artstation && (
+                <a
+                  aria-label="ArtStation"
+                  href={artstation}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="rounded-full border border-ink/15 p-2.5 transition-colors hover:bg-coral"
+                >
+                  <ArtstationIcon size={16} />
                 </a>
               )}
             </div>
