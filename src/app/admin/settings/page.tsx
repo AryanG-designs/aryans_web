@@ -2,7 +2,8 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { SiteSettings, TimelineEntry, defaultSettings } from "@/lib/settings";
+import { SiteSettings, TimelineEntry, HeroImage, defaultSettings } from "@/lib/settings";
+import ImageSlot from "@/components/admin/ImageSlot";
 import { ArrowLeft, Save, Check, Loader2, Plus, Trash2 } from "lucide-react";
 
 const inputClass =
@@ -80,6 +81,72 @@ function TimelineEditor({
           </div>
         ))}
         {entries.length === 0 && <p className="text-xs text-ink-soft">No entries yet.</p>}
+      </div>
+    </div>
+  );
+}
+
+function HeroImagesEditor({
+  images,
+  onChange,
+}: {
+  images: HeroImage[];
+  onChange: (images: HeroImage[]) => void;
+}) {
+  return (
+    <div className="space-y-4 border-t border-ink/10 pt-6">
+      <div className="flex items-center justify-between">
+        <div>
+          <p className="font-display text-lg font-semibold">Homepage Hero Images</p>
+          <p className="text-xs text-ink-soft">
+            Upload as many as you like — the homepage shows 2 at a time and swaps in a new
+            random pair every few seconds.
+          </p>
+        </div>
+        <button
+          type="button"
+          onClick={() => onChange([...images, { image: "", caption: "" }])}
+          className="inline-flex shrink-0 items-center gap-1 rounded-full border border-ink/20 px-2.5 py-1 text-xs uppercase tracking-[0.08em] hover:bg-ink hover:text-cream"
+        >
+          <Plus size={12} /> Add image
+        </button>
+      </div>
+      <div className="space-y-3">
+        {images.map((item, i) => (
+          <div key={i} className="flex items-center gap-3 rounded-xl bg-cream-deep/40 p-3">
+            <ImageSlot
+              label={`Image ${i + 1}`}
+              value={item.image}
+              onChange={(url) => {
+                const next = [...images];
+                next[i] = { ...next[i], image: url };
+                onChange(next);
+              }}
+            />
+            <div className="flex-1">
+              <p className="mb-1.5 text-xs uppercase tracking-[0.1em] text-ink-soft">Caption (optional)</p>
+              <input
+                className={inputClass}
+                placeholder="e.g. Indigo City, 2025"
+                value={item.caption ?? ""}
+                onChange={(e) => {
+                  const next = [...images];
+                  next[i] = { ...next[i], caption: e.target.value };
+                  onChange(next);
+                }}
+              />
+            </div>
+            <button
+              type="button"
+              onClick={() => onChange(images.filter((_, idx) => idx !== i))}
+              className="mt-6 shrink-0 rounded-full p-1.5 text-ink-soft hover:bg-red-100 hover:text-red-600"
+              aria-label="Remove"
+            >
+              <Trash2 size={15} />
+            </button>
+          </div>
+        ))}
+        {images.length === 0 && <p className="text-xs text-ink-soft">No hero images yet — the homepage falls back to your featured projects.</p>}
       </div>
     </div>
   );
@@ -237,6 +304,11 @@ export default function AdminSettingsPage() {
         <TimelineEditor
           entries={settings.timeline}
           onChange={(entries) => setSettings({ ...settings, timeline: entries })}
+        />
+
+        <HeroImagesEditor
+          images={settings.heroImages}
+          onChange={(images) => setSettings({ ...settings, heroImages: images })}
         />
       </div>
     </div>

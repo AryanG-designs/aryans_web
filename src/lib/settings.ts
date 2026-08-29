@@ -6,6 +6,11 @@ export type TimelineEntry = {
   org: string;
 };
 
+export type HeroImage = {
+  image: string;
+  caption?: string;
+};
+
 export type SiteSettings = {
   email: string;
   phone: string;
@@ -18,6 +23,7 @@ export type SiteSettings = {
     artstation: string;
   };
   timeline: TimelineEntry[];
+  heroImages: HeroImage[];
 };
 
 const SETTINGS_PATH = "data/settings.json";
@@ -34,6 +40,7 @@ export const defaultSettings: SiteSettings = {
     { year: "2024", title: "Emerging Illustrator Award — Shortlist", org: "Student Design Awards" },
     { year: "2022 — 2023", title: "Foundation in Art & Design", org: "City College" },
   ],
+  heroImages: [],
 };
 
 export async function getSettings(): Promise<SiteSettings> {
@@ -49,6 +56,7 @@ export async function getSettings(): Promise<SiteSettings> {
       ...data,
       socials: { ...defaultSettings.socials, ...(data.socials ?? {}) },
       timeline: data.timeline && data.timeline.length > 0 ? data.timeline : defaultSettings.timeline,
+      heroImages: data.heroImages ?? defaultSettings.heroImages,
     };
   } catch {
     return defaultSettings;

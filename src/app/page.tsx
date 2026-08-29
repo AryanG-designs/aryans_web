@@ -6,16 +6,18 @@ import Plate from "@/components/Plate";
 import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
 import { getProjects } from "@/lib/store";
+import { getSettings } from "@/lib/settings";
 
 export const dynamic = "force-dynamic";
 
 export default async function Home() {
   const projects = await getProjects();
+  const settings = await getSettings();
   const heroProjects = [...projects].sort((a, b) => Number(b.featured) - Number(a.featured));
 
   return (
     <>
-      <Hero projects={heroProjects} />
+      <Hero projects={heroProjects} heroImages={settings.heroImages} />
       <IntroWords />
       <FeaturedWork projects={projects} />
 

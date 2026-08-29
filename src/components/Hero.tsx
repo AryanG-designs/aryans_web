@@ -1,16 +1,54 @@
 "use client";
 
-import { useRef } from "react";
-import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
+import { useEffect, useRef, useState } from "react";
+import { AnimatePresence, motion, useMotionValue, useSpring, useTransform } from "framer-motion";
 import Link from "next/link";
 import Plate from "./Plate";
 import { ArrowDownRight } from "lucide-react";
 import { Project } from "@/lib/projects";
+import { HeroImage } from "@/lib/settings";
 
-export default function Hero({ projects = [] }: { projects?: Project[] }) {
+function shuffle<T>(arr: T[]): T[] {
+  return [...arr].sort(() => Math.random() - 0.5);
+}
+
+export default function Hero({
+  projects = [],
+  heroImages = [],
+}: {
+  projects?: Project[];
+  heroImages?: HeroImage[];
+}) {
   const withCover = projects.filter((p) => p.cover);
-  const first = withCover[0];
-  const second = withCover[1];
+  const usePool = heroImages.length >= 2;
+
+  const [pair, setPair] = useState<HeroImage[]>(() => (usePool ? shuffle(heroImages).slice(0, 2) : []));
+
+  useEffect(() => {
+    if (!usePool) return;
+    const id = setInterval(() => {
+      setPair(shuffle(heroImages).slice(0, 2));
+    }, 3000);
+    return () => clearInterval(id);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [usePool, JSON.stringify(heroImages)]);
+
+  const slotOne = usePool
+    ? { seed: pair[0]?.image ?? "hero-1", src: pair[0]?.image, label: pair[0]?.caption || undefined }
+    : {
+        seed: withCover[0]?.slug ?? "hero-1",
+        src: withCover[0]?.cover,
+        label: withCover[0] ? `${withCover[0].title}, ${withCover[0].year}` : "Graphic Novel, 2025",
+      };
+
+  const slotTwo = usePool
+    ? { seed: pair[1]?.image ?? "hero-2", src: pair[1]?.image, label: pair[1]?.caption || undefined }
+    : {
+        seed: withCover[1]?.slug ?? "hero-2",
+        src: withCover[1]?.cover,
+        label: withCover[1] ? `${withCover[1].title}, ${withCover[1].year}` : "Sketchbook",
+      };
+
   const ref = useRef<HTMLDivElement>(null);
   const mx = useMotionValue(0);
   const my = useMotionValue(0);
@@ -93,22 +131,30 @@ export default function Hero({ projects = [] }: { projects?: Project[] }) {
 
         <div className="relative h-[420px] md:h-[480px]">
           <motion.div style={{ x: t1x, y: t1y }} className="absolute right-4 top-0 w-[58%] shadow-xl">
-            <Plate
-              seed={first?.slug ?? "hero-1"}
-              src={first?.cover}
-              label={first ? `${first.title}, ${first.year}` : "Graphic Novel, 2025"}
-              ratio="aspect-[3/4]"
-              fit="contain-boxed"
-            />
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={slotOne.src ?? slotOne.seed}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.5 }}
+              >
+                <Plate seed={slotOne.seed} src={slotOne.src} label={slotOne.label} ratio="aspect-[3/4]" fit="contain-boxed" />
+              </motion.div>
+            </AnimatePresence>
           </motion.div>
           <motion.div style={{ x: t2x, y: t2y }} className="absolute left-0 bottom-6 w-[46%] shadow-xl">
-            <Plate
-              seed={second?.slug ?? "hero-2"}
-              src={second?.cover}
-              label={second ? `${second.title}, ${second.year}` : "Sketchbook"}
-              ratio="aspect-square"
-              fit="contain-boxed"
-            />
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={slotTwo.src ?? slotTwo.seed}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.5 }}
+              >
+                <Plate seed={slotTwo.seed} src={slotTwo.src} label={slotTwo.label} ratio="aspect-square" fit="contain-boxed" />
+              </motion.div>
+            </AnimatePresence>
           </motion.div>
           <motion.div
             style={{ x: t3x, y: t3y }}
