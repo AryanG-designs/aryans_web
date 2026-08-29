@@ -6,7 +6,7 @@ import Link from "next/link";
 import { Project, Category, categories } from "@/lib/projects";
 import { slugify } from "@/lib/store";
 import ImageSlot from "@/components/admin/ImageSlot";
-import { Plus, Trash2, LogOut, Save, Check, Loader2, Settings } from "lucide-react";
+import { Plus, Trash2, LogOut, Save, Check, Loader2, Settings, Film } from "lucide-react";
 
 const selectableCategories = categories.filter((c) => c !== "All") as Category[];
 
@@ -228,8 +228,15 @@ export default function AdminPage() {
         </div>
 
         <Link
-          href="/admin/settings"
+          href="/admin/videos"
           className="mt-4 inline-flex w-full items-center justify-center gap-1.5 rounded-full border border-ink/20 px-3 py-2 text-xs uppercase tracking-[0.08em] hover:bg-ink hover:text-cream"
+        >
+          <Film size={13} /> Videos
+        </Link>
+
+        <Link
+          href="/admin/settings"
+          className="mt-2 inline-flex w-full items-center justify-center gap-1.5 rounded-full border border-ink/20 px-3 py-2 text-xs uppercase tracking-[0.08em] hover:bg-ink hover:text-cream"
         >
           <Settings size={13} /> Contact & social settings
         </Link>
