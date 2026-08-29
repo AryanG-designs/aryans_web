@@ -30,6 +30,8 @@ export type SiteSettings = {
   timeline: TimelineEntry[];
   heroImages: HeroImage[];
   sketchbookImages: SketchbookImage[];
+  portrait: string;
+  cvFile: string;
 };
 
 const SETTINGS_PATH = "data/settings.json";
@@ -48,6 +50,8 @@ export const defaultSettings: SiteSettings = {
     { image: "", label: "Prototype v2" },
     { image: "", label: "Final" },
   ],
+  portrait: "",
+  cvFile: "",
 };
 
 export async function getSettings(): Promise<SiteSettings> {

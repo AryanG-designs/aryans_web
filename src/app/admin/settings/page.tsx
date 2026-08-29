@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { SiteSettings, TimelineEntry, HeroImage, SketchbookImage, defaultSettings } from "@/lib/settings";
 import ImageSlot from "@/components/admin/ImageSlot";
+import FileSlot from "@/components/admin/FileSlot";
 import { ArrowLeft, Save, Check, Loader2, Plus, Trash2 } from "lucide-react";
 
 const inputClass =
@@ -266,6 +267,21 @@ export default function AdminSettingsPage() {
           </button>
         </div>
         {error && <p className="text-sm text-red-600">{error}</p>}
+
+        <div className="space-y-4">
+          <p className="font-display text-lg font-semibold">About Page</p>
+          <ImageSlot
+            label="Portrait photo"
+            value={settings.portrait}
+            onChange={(url) => setSettings({ ...settings, portrait: url })}
+          />
+          <FileSlot
+            label="CV / Resume (PDF)"
+            value={settings.cvFile}
+            accept="application/pdf,.pdf"
+            onChange={(url) => setSettings({ ...settings, cvFile: url })}
+          />
+        </div>
 
         <Field label="Email">
           <input

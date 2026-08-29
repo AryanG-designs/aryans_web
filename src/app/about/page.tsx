@@ -33,7 +33,7 @@ export default async function AboutPage() {
       <div className="mx-auto max-w-6xl">
         <div className="grid gap-14 lg:grid-cols-[0.9fr_1.1fr] lg:items-center">
           <Reveal>
-            <Plate seed="portrait" ratio="aspect-[4/5]" label="Aryan, studio 2025" />
+            <Plate seed="portrait" src={settings.portrait} ratio="aspect-[4/5]" fit="contain-boxed" label="Aryan, studio 2025" />
           </Reveal>
           <Reveal delay={0.1}>
             <p className="mb-2 text-xs uppercase tracking-[0.16em] text-coral-deep">About</p>
@@ -48,12 +48,16 @@ export default async function AboutPage() {
               narrative while allowing me to constantly learn, experiment,
               and develop my own creative style.
             </p>
-            <a
-              href="#"
-              className="mt-7 inline-flex items-center gap-2 rounded-full border border-ink/20 px-5 py-2.5 text-sm uppercase tracking-[0.12em] transition-colors hover:bg-ink hover:text-cream"
-            >
-              Download CV <Download size={15} />
-            </a>
+            {settings.cvFile && (
+              <a
+                href={settings.cvFile}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="mt-7 inline-flex items-center gap-2 rounded-full border border-ink/20 px-5 py-2.5 text-sm uppercase tracking-[0.12em] transition-colors hover:bg-ink hover:text-cream"
+              >
+                Download CV <Download size={15} />
+              </a>
+            )}
           </Reveal>
         </div>
 
