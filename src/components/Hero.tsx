@@ -98,6 +98,7 @@ export default function Hero({ projects = [] }: { projects?: Project[] }) {
               src={first?.cover}
               label={first ? `${first.title}, ${first.year}` : "Graphic Novel, 2025"}
               ratio="aspect-[3/4]"
+              fit="contain-boxed"
             />
           </motion.div>
           <motion.div style={{ x: t2x, y: t2y }} className="absolute left-0 bottom-6 w-[46%] shadow-xl">
@@ -106,6 +107,7 @@ export default function Hero({ projects = [] }: { projects?: Project[] }) {
               src={second?.cover}
               label={second ? `${second.title}, ${second.year}` : "Sketchbook"}
               ratio="aspect-square"
+              fit="contain-boxed"
             />
           </motion.div>
           <motion.div

@@ -18,7 +18,7 @@ export default function VideoGrid({ videos }: { videos: Video[] }) {
           <button key={v.slug} onClick={() => setActive(v)} data-cursor="Play" className="group block text-left">
             <div className="relative overflow-hidden">
               <div className="transition-transform duration-700 ease-out group-hover:scale-[1.045]">
-                <Plate seed={v.slug} src={v.thumbnail} ratio="aspect-video" />
+                <Plate seed={v.slug} src={v.thumbnail} ratio="aspect-video" fit="contain-boxed" />
               </div>
               <div className="absolute inset-0 flex items-center justify-center bg-ink/20 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
                 <span className="flex h-14 w-14 items-center justify-center rounded-full bg-cream/95">
