@@ -41,10 +41,12 @@ export default async function AboutPage() {
               Hi, I'm Aryan.
             </h1>
             <p className="mt-5 text-lg text-ink-soft leading-relaxed">
-              A third-year illustration and animation student who thinks with
-              his hands as much as his screen — I move between graphic
-              novels, character work, and motion depending on what a story
-              needs.
+              I'm a fourth year design student passionate about animation,
+              VFX, and graphic novels. I enjoy combining visual storytelling,
+              design, and experimentation to bring ideas and stories to
+              life. My work explores characters, worlds, movement, and
+              narrative while allowing me to constantly learn, experiment,
+              and develop my own creative style.
             </p>
             <a
               href="#"
