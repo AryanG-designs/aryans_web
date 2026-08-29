@@ -1,19 +1,16 @@
 "use client";
 
 import { useState } from "react";
-import { AnimatePresence, motion } from "framer-motion";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
 export type SlideItem = { image: string; caption?: string };
 
 export default function FlipSlideshow({ items }: { items: SlideItem[] }) {
   const [index, setIndex] = useState(0);
-  const [direction, setDirection] = useState(1);
 
   if (items.length === 0) return null;
 
   function go(next: number) {
-    setDirection(next > index ? 1 : -1);
     setIndex((next + items.length) % items.length);
   }
 
@@ -31,32 +28,31 @@ export default function FlipSlideshow({ items }: { items: SlideItem[] }) {
           <ChevronLeft size={20} />
         </button>
 
-        <div className="grid h-[60vh] flex-1 place-items-center overflow-hidden bg-cream-deep/40">
-          <AnimatePresence mode="popLayout" custom={direction}>
-            <motion.div
-              key={index}
-              custom={direction}
-              initial={{ scaleX: 0, opacity: 0 }}
-              animate={{ scaleX: 1, opacity: 1 }}
-              exit={{ scaleX: 0, opacity: 0 }}
-              transition={{ duration: 0.4, ease: [0.65, 0, 0.35, 1] }}
-              style={{ gridArea: "1 / 1", width: "100%", height: "100%", display: "flex", alignItems: "center", justifyContent: "center" }}
-            >
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                src={current.image}
-                alt={current.caption ?? `Slide ${index + 1}`}
-                style={{
-                  maxWidth: "100%",
-                  maxHeight: "100%",
-                  width: "auto",
-                  height: "auto",
-                  objectFit: "contain",
-                  display: "block",
-                }}
-              />
-            </motion.div>
-          </AnimatePresence>
+        <div
+          style={{
+            flex: "1 1 0%",
+            height: "60vh",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            overflow: "hidden",
+            background: "rgba(255, 237, 209, 0.4)",
+          }}
+        >
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src={current.image}
+            alt={current.caption ?? `Slide ${index + 1}`}
+            style={{
+              maxWidth: "100%",
+              maxHeight: "100%",
+              width: "auto",
+              height: "auto",
+              objectFit: "contain",
+              display: "block",
+              transition: "opacity 0.3s ease",
+            }}
+          />
         </div>
 
         <button
