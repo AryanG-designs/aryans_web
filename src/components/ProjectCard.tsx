@@ -11,7 +11,6 @@ const catColor: Record<string, string> = {
   Texturing: "bg-cream-deep",
   Animation: "bg-coral",
   Illustration: "bg-aqua",
-  Experimental: "bg-cream-deep",
 };
 
 export default function ProjectCard({

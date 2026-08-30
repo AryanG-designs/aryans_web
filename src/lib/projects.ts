@@ -3,8 +3,7 @@ export type Category =
   | "Character Design"
   | "Texturing"
   | "Animation"
-  | "Illustration"
-  | "Experimental";
+  | "Illustration";
 
 export type MaterialNote = {
   label: string;
@@ -223,7 +222,7 @@ export const seedProjects: Project[] = [
   {
     slug: "texture-of-sound",
     title: "Texture of Sound",
-    category: "Experimental",
+    category: "Illustration",
     year: "2023",
     duration: "5 weeks",
     role: "Illustrator / Animator",
@@ -256,6 +255,5 @@ export const categories: ("All" | Category)[] = [
   "Texturing",
   "Animation",
   "Illustration",
-  "Experimental",
 ];
 
