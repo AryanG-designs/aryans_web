@@ -17,10 +17,30 @@ const inter = Inter({
   weight: ["300", "400", "500", "600"],
 });
 
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://aryans-web.vercel.app";
+
 export const metadata: Metadata = {
-  title: "Aryan Goswami — Illustrator / Animator Portfolio",
+  metadataBase: new URL(siteUrl),
+  title: {
+    default: "Aryan Goswami — Illustrator / Animator Portfolio",
+    template: "%s — Aryan Goswami",
+  },
   description:
     "Aryan Goswami is an illustrator and animator working across graphic novels, texturing, and character-driven visual storytelling. This is a sketchbook turned digital exhibition.",
+  openGraph: {
+    title: "Aryan Goswami — Illustrator / Animator Portfolio",
+    description:
+      "Aryan Goswami is an illustrator and animator working across graphic novels, texturing, and character-driven visual storytelling.",
+    url: siteUrl,
+    siteName: "Aryan Goswami",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Aryan Goswami — Illustrator / Animator Portfolio",
+    description:
+      "Aryan Goswami is an illustrator and animator working across graphic novels, texturing, and character-driven visual storytelling.",
+  },
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
