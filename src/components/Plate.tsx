@@ -35,8 +35,8 @@ export default function Plate({
   /**
    * "cover" crops to fill a fixed box; "contain" shows the full image at its
    * natural aspect ratio with no fixed box; "contain-boxed" fits the whole
-   * image inside a fixed-ratio box, letterboxed with black on any leftover
-   * space (used for uniform grid cards without cropping).
+   * image inside a fixed-ratio box, letterboxed with a warm neutral on any
+   * leftover space (used for uniform grid cards without cropping).
    */
   fit?: "cover" | "contain" | "contain-boxed";
 }) {
@@ -58,7 +58,7 @@ export default function Plate({
 
   if (hasRealImage && fit === "contain-boxed") {
     return (
-      <div className={`relative overflow-hidden bg-black ${ratio} ${className}`}>
+      <div className={`relative overflow-hidden bg-cream-deep ${ratio} ${className}`}>
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img src={src} alt={label ?? ""} className="h-full w-full object-contain" />
         {label && (
